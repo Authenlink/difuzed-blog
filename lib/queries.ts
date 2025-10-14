@@ -52,16 +52,23 @@ export async function getBlogPostsByCategory(categorySlug: string) {
 }
 
 // Récupérer les slugs pour la génération statique (ISR)
-export async function getAllBlogPostSlugs() {
-  const params = new URLSearchParams({
-    fields: "slug",
-    "pagination[pageSize]": "100",
-  });
+export async function getAllBlogPostSlugs(): Promise<string[]> {
+  try {
+    const params = new URLSearchParams({
+      fields: "slug",
+      "pagination[pageSize]": "100",
+    });
 
-  const response = await fetchFromStrapi(
-    `/api/articles?${params.toString()}`
-  ) as ApiResponse<BlogPost>;
+    const response = await fetchFromStrapi(
+      `/api/articles?${params.toString()}`
+    ) as ApiResponse<BlogPost[]>;
 
-  const data = Array.isArray(response.data) ? response.data : [response.data];
-  return data.map((post) => post.slug);
+    const data = Array.isArray(response.data) ? response.data : [response.data];
+    return data
+      .filter((post) => post && post.slug)
+      .map((post) => post.slug);
+  } catch (error) {
+    console.error("Error fetching blog post slugs:", error);
+    return [];
+  }
 }

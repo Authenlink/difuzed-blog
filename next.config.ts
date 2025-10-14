@@ -53,8 +53,6 @@ const nextConfig: NextConfig = {
       "react-icons",
     ],
   },
-  // Optimisation moderne pour réduire les polyfills
-  swcMinify: true,
   // Améliorer la compression
   poweredByHeader: false,
   // Optimiser les performances
