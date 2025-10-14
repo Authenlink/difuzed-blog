@@ -70,19 +70,46 @@ function renderBlock(
       if (!richBlock.body) {
         return null;
       }
-      // Convertir les sauts de ligne en paragraphes markdown
-      // Éviter de doubler les sauts de ligne déjà doubles
-      const processedBody = richBlock.body
-        .replace(/\n{3,}/g, "\n\n") // Réduire 3+ sauts de ligne à 2
-        .replace(/([^\n])\n([^\n])/g, "$1\n\n$2"); // Doubler les sauts simples
 
       return (
         <div
           key={block.id}
-          className="prose prose-lg max-w-none my-6 dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:my-4 prose-ul:my-4 prose-li:my-1"
+          className="prose prose-lg max-w-none my-6 dark:prose-invert"
         >
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {processedBody}
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              h2: ({ children }) => (
+                <h2 className="text-2xl font-bold mt-8 mb-4">{children}</h2>
+              ),
+              h3: ({ children }) => (
+                <h3 className="text-xl font-bold mt-6 mb-3">{children}</h3>
+              ),
+              p: ({ children }) => <p className="mb-4">{children}</p>,
+              ul: ({ children }) => <ul className="mb-4 space-y-2">{children}</ul>,
+              ol: ({ children }) => <ol className="mb-4 space-y-2">{children}</ol>,
+              li: ({ children }) => <li className="ml-4">{children}</li>,
+              table: ({ children }) => (
+                <table className="w-full my-6 border-collapse">{children}</table>
+              ),
+              thead: ({ children }) => (
+                <thead className="bg-muted">{children}</thead>
+              ),
+              tbody: ({ children }) => <tbody>{children}</tbody>,
+              tr: ({ children }) => (
+                <tr className="border-b border-border">{children}</tr>
+              ),
+              th: ({ children }) => (
+                <th className="p-3 text-left font-semibold">{children}</th>
+              ),
+              td: ({ children }) => <td className="p-3">{children}</td>,
+              hr: () => <hr className="my-8 border-border" />,
+              strong: ({ children }) => (
+                <strong className="font-bold">{children}</strong>
+              ),
+            }}
+          >
+            {richBlock.body}
           </ReactMarkdown>
         </div>
       );
