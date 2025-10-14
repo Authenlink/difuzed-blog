@@ -33,7 +33,7 @@ export function BlogNavbar() {
           className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
         >
           <Image
-            src="/AuthenLink.png"
+            src="/authenlink.png"
             alt="logo"
             width={30}
             height={30}
