@@ -1,8 +1,17 @@
 const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-const strapiToken = process.env.STRAPI_API_TOKEN;
+const strapiToken = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+
+// Debug: Log des variables d'environnement (à retirer en production)
+console.log('🔍 Strapi Config:', {
+  url: strapiUrl,
+  hasToken: !!strapiToken,
+  tokenLength: strapiToken?.length || 0
+});
 
 export async function fetchFromStrapi(endpoint: string, options?: RequestInit) {
   const url = new URL(endpoint, strapiUrl);
+
+  console.log('📡 Fetching from:', url.toString());
 
   const defaultHeaders: HeadersInit = {
     "Content-Type": "application/json",
@@ -27,16 +36,23 @@ export async function fetchFromStrapi(endpoint: string, options?: RequestInit) {
   };
 
   try {
+    console.log('🚀 Starting fetch request...');
     const response = await fetch(url.toString(), mergedOptions);
+    console.log('✅ Fetch successful, status:', response.status);
 
     if (!response.ok) {
+      console.error('❌ Response not OK:', response.status, response.statusText);
       throw new Error(`Strapi API error: ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('📦 Data received:', data);
     return data;
   } catch (error) {
-    console.error("Error fetching from Strapi:", error);
+    console.error("❌ Error fetching from Strapi:", error);
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      console.error('⚠️ Network error - Check if Strapi is running and CORS is configured');
+    }
     throw error;
   }
 }

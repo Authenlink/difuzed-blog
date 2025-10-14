@@ -4,6 +4,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BlogNavbar } from "@/components/BlogNavbar";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import type {
   MediaBlock,
   RichTextBlock,
@@ -26,7 +28,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: BlogDetailPageProps) {
-  const post = await getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     return {
@@ -67,12 +70,21 @@ function renderBlock(
       if (!richBlock.body) {
         return null;
       }
+      // Convertir les sauts de ligne en paragraphes markdown
+      // Éviter de doubler les sauts de ligne déjà doubles
+      const processedBody = richBlock.body
+        .replace(/\n{3,}/g, "\n\n") // Réduire 3+ sauts de ligne à 2
+        .replace(/([^\n])\n([^\n])/g, "$1\n\n$2"); // Doubler les sauts simples
+
       return (
         <div
           key={block.id}
-          className="prose prose-lg max-w-none my-6"
-          dangerouslySetInnerHTML={{ __html: richBlock.body }}
-        />
+          className="prose prose-lg max-w-none my-6 dark:prose-invert prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:my-4 prose-ul:my-4 prose-li:my-1"
+        >
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {processedBody}
+          </ReactMarkdown>
+        </div>
       );
 
     case "shared.quote":
@@ -126,7 +138,8 @@ function renderBlock(
 }
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
-  const post = await getBlogPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();

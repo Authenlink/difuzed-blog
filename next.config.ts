@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "strapi-production-18ed.up.railway.app",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
         hostname: "assets.aceternity.com",
       },
       {
