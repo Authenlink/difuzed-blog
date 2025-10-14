@@ -14,7 +14,7 @@ export default function Features() {
     data: articles,
     loading,
     error,
-  } = useStrapi<BlogPost>("articles", {
+  } = useStrapi<BlogPost[]>("articles", {
     populate: "cover,author,category",
     sort: "publishedAt:desc",
   });

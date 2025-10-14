@@ -10,7 +10,7 @@ export function useStrapi<T>(
     pagination?: { page: number; pageSize: number };
   }
 ) {
-  const [data, setData] = useState<T[] | null>(null);
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
