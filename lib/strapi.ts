@@ -55,7 +55,7 @@ export async function fetchFromStrapi(endpoint: string, options?: RequestInit) {
   if (useProxy) {
     console.log('🔄 Using Next.js proxy for Strapi request');
     const proxyUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-    const fullUrl = `${proxyUrl}/api${endpoint}`;
+    const fullUrl = `${proxyUrl}${endpoint}`;
     return fetchFromProxy(fullUrl, options);
   }
 
@@ -128,7 +128,7 @@ export function getStrapiImageUrl(imageData: any): string | null {
   // En production avec proxy, utiliser le proxy pour les images aussi
   if (useProxy) {
     const proxyUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-    return `${proxyUrl}/api${imageUrl}`;
+    return `${proxyUrl}${imageUrl}`;
   }
 
   // Sinon, ajoute l'URL Strapi directe
