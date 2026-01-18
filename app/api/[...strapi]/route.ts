@@ -5,10 +5,11 @@ const STRAPI_TOKEN = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { strapi: string[] } }
+  { params }: { params: Promise<{ strapi: string[] }> }
 ) {
   try {
-    const path = params.strapi.join('/');
+    const { strapi } = await params;
+    const path = strapi.join('/');
     const url = new URL(request.url);
     const searchParams = url.searchParams;
 
@@ -74,10 +75,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { strapi: string[] } }
+  { params }: { params: Promise<{ strapi: string[] }> }
 ) {
   try {
-    const path = params.strapi.join('/');
+    const { strapi } = await params;
+    const path = strapi.join('/');
     const body = await request.json();
 
     const strapiUrl = new URL(`/api/${path}`, STRAPI_URL);
