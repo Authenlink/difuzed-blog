@@ -15,10 +15,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const navItems = [
-  { name: "Accueil", link: "/" },
-  { name: "Newsletter", link: "/newsletter" },
-];
+const navItems = [{ name: "Accueil", link: "/" }];
 
 export function BlogNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,13 +30,13 @@ export function BlogNavbar() {
           className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
         >
           <Image
-            src="/authenlink.png"
+            src="/difuzed.png"
             alt="logo"
             width={30}
             height={30}
             priority
           />
-          <span className="font-medium text-foreground">AuthenLink</span>
+          <span className="font-medium text-foreground">Difuzed</span>
         </Link>
 
         {/* Nav Items */}
@@ -53,7 +50,7 @@ export function BlogNavbar() {
           {/* CTA Button */}
           <NavbarButton
             variant="dark"
-            href="https://www.authenlink.com"
+            href="https://www.difuzed.io"
             target="_blank"
           >
             Website

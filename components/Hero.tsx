@@ -1,6 +1,5 @@
 import { FlipWords } from "./ui/flip-words";
 import { Spotlight } from "./ui/spotlight";
-import CTA from "./cta";
 import { Ripple } from "./ui/ripple";
 
 const Hero = () => {
@@ -45,14 +44,14 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="flex justify-center relative my-20 z-10">
+      <div className="flex justify-center relative mt-20 z-10">
         <div className="max-w-[89vw] md:max-w-2xl lg:max-w-[60vw] flex flex-col items-center justify-center text-center">
           <p className="uppercase tracking-widest text-md text-primary max-w-80 mb-5">
-            AuthenLink Blog
+            Difuzed - Blog
           </p>
 
           <div className="text-4xl md:text-5xl lg:text-7xl leading-tight md:leading-normal font-bold md:font-normal text-foreground">
-            L&apos;essentiel de l&apos;IA,
+            L&apos;essentiel du GEO,
             <FlipWords
               words={["décodé", "analysé", "exploré", "appliqué", "maîtrisé"]}
               duration={3000}
@@ -61,12 +60,9 @@ const Hero = () => {
 
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl">
             Rejoignez notre communauté et recevez chaque semaine les dernières
-            avancées en IA et tech, décryptées et prêtes à l&apos;emploi.
+            avancées en IA et tech appliquée au marketing, décryptées et prêtes
+            à l&apos;emploi.
           </p>
-
-          <div className="mt-6 w-full">
-            <CTA />
-          </div>
         </div>
       </div>
     </div>

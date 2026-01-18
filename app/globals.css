@@ -13,7 +13,7 @@
     --card-foreground: 0.141 0.005 285.823;
     --popover: 1 0 0;
     --popover-foreground: 0.141 0.005 285.823;
-    --primary: 0.623 0.214 259.815;
+    --primary: 0.577 0.245 27.325;
     --primary-foreground: 0.969 0.016 293.756;
     --secondary: 0.967 0.001 286.375;
     --secondary-foreground: 0.21 0.006 285.885;
@@ -47,7 +47,7 @@
     --card-foreground: 0.985 0 0;
     --popover: 0.21 0.006 285.885;
     --popover-foreground: 0.985 0 0;
-    --primary: 0.623 0.214 259.815;
+    --primary: 0.577 0.245 27.325;
     --primary-foreground: 0.969 0.016 293.756;
     --secondary: 0.274 0.006 286.033;
     --secondary-foreground: 0.985 0 0;
@@ -252,13 +252,15 @@ body {
 }
 
 @theme inline {
-  --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s)
+    infinite;
   @keyframes ripple {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
     }
-  50% {
-    transform: translate(-50%, -50%) scale(0.9);
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
     }
   }
 }

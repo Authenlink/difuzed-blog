@@ -20,9 +20,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AuthenLink - Blog",
+  title: "Difuzed - Blog",
   description:
-    "Découvrez les dernières tendances en intelligence artificielle, agents IA, modèles LLM, frameworks et outils open source. Guides, analyses et actualités pour développeurs et passionnés tech.",
+    "Découvrez les dernières tendances en intelligence artificielle qui jouent un rôle cruciale dans votre approche GEO. Guides, analyses et actualités pour développeurs et passionnés tech.",
 };
 
 export default function RootLayout({
