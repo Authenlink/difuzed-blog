@@ -8,7 +8,57 @@ console.log('🔍 Strapi Config:', {
   tokenLength: strapiToken?.length || 0
 });
 
+// En production, utiliser le proxy Next.js pour éviter les problèmes CORS
+const useProxy = process.env.NODE_ENV === 'production' || process.env.NEXT_PUBLIC_USE_STRAPI_PROXY === 'true';
+
+async function fetchFromProxy(url: string, options?: RequestInit) {
+  console.log('📡 Proxy fetch from:', url);
+
+  const defaultHeaders: HeadersInit = {
+    "Content-Type": "application/json",
+  };
+
+  const defaultOptions: RequestInit = {
+    headers: defaultHeaders,
+  };
+
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options,
+    headers: {
+      ...defaultOptions.headers,
+      ...(options?.headers || {}),
+    },
+  };
+
+  try {
+    console.log('🚀 Starting proxy fetch request...');
+    const response = await fetch(url, mergedOptions);
+    console.log('✅ Proxy fetch successful, status:', response.status);
+
+    if (!response.ok) {
+      console.error('❌ Proxy response not OK:', response.status, response.statusText);
+      throw new Error(`Strapi API error: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log('📦 Data received from proxy:', data);
+    return data;
+  } catch (error) {
+    console.error("❌ Error fetching from proxy:", error);
+    throw error;
+  }
+}
+
 export async function fetchFromStrapi(endpoint: string, options?: RequestInit) {
+  // Utiliser le proxy en production ou si explicitement demandé
+  if (useProxy) {
+    console.log('🔄 Using Next.js proxy for Strapi request');
+    const proxyUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    const fullUrl = `${proxyUrl}/api${endpoint}`;
+    return fetchFromProxy(fullUrl, options);
+  }
+
   const url = new URL(endpoint, strapiUrl);
 
   console.log('📡 Fetching from:', url.toString());
@@ -75,6 +125,12 @@ export function getStrapiImageUrl(imageData: any): string | null {
     return imageUrl;
   }
 
-  // Sinon, ajoute l'URL Strapi
+  // En production avec proxy, utiliser le proxy pour les images aussi
+  if (useProxy) {
+    const proxyUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    return `${proxyUrl}/api${imageUrl}`;
+  }
+
+  // Sinon, ajoute l'URL Strapi directe
   return `${strapiUrl}${imageUrl}`;
 }
