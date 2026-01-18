@@ -3,6 +3,9 @@
 import { getAllBlogPosts } from "@/lib/queries";
 import BlogCard from "@/components/BlogCard";
 
+// Désactiver le prerendering statique pour cette page
+export const dynamic = 'force-dynamic';
+
 export default async function BlogPage() {
   const response = await getAllBlogPosts(1, 10);
   const posts = Array.isArray(response.data) ? response.data : [response.data];
